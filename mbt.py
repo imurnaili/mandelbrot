@@ -1,6 +1,7 @@
 from numba import jit
 import numpy as np
 from PIL import Image
+import time
 
 # constants
 centercolor = (0, 0, 0)
@@ -13,6 +14,7 @@ isize = (1000, 1000)
 location = (0, 0)
 zoom = 1.0
 
+############
 step = ((4.0/ zoom)/ isize[0], (4.0 / zoom) / isize[1])
 corner = (location[0] - (step[0] * isize[0] / 2), location[1] - (step[1] * isize[1] / 2))
 
@@ -26,6 +28,7 @@ def ValueAt(c):
 		z = zn
 	return -1.0
 
+@jit(nopython=True)
 def GetColor(v):
 	if (v == -1.0):
 		return centercolor
@@ -34,21 +37,21 @@ def GetColor(v):
 	cv3 = color2[2] + (color1[2] - color2[2]) * v
 	return (int(cv1), int(cv2), int(cv3))
 
+@jit(nopython=True)
 def GetCords(pix):
-	pos = np.add(corner, np.multiply(step, pix))
-	return complex(pos[0], pos[1])
+	return complex(corner[0] + step[0] * pix[0], corner[1] + step[1] * pix[1])
 
+@jit(forceobj=True, parallel=True)
 def GenImageRGB(pixels):
-	rowCount = 0
-	for y in range(0, isize[1]):
-		for x in range(0, isize[0]):
+	for y in range(0, isize[0]):
+		for x in range(0, isize[1]):
 			v = ValueAt(GetCords((x,y)))
 			pixels[x, y] = GetColor(v)
-		rowCount = rowCount + 1
-		if rowCount % 10 == 0:
-			print(rowCount, end='|', flush=True)
 
+start = time.time()
 img = Image.new(mode = "RGB", size = isize)
 pixels = img.load()
 GenImageRGB(pixels)
+end = time.time()
+print("Elapsed = %s" % (end - start))
 img.save("./output.png", "PNG")
