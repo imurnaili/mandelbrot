@@ -1,3 +1,4 @@
+from turtle import pos
 from numba import jit
 import numpy as np
 from PIL import Image
@@ -8,10 +9,14 @@ centercolor = (0, 0, 0)
 color1 = (0, 0, 255)
 color2 = (255, 255, 255)
 
-iterations = 50
+#quality
+iterations = 30
+#image resolution
 isize = (1000, 1000)
 
+#center coordinates
 location = (0, 0)
+#zoom factor (increase iterations as well)
 zoom = 1.0
 
 ############
@@ -53,5 +58,9 @@ img = Image.new(mode = "RGB", size = isize)
 pixels = img.load()
 GenImageRGB(pixels)
 end = time.time()
+
 print("Elapsed = %s" % (end - start))
+print("Cords: " + str(location[0]) + ", " + str(location[1]))
+print("Zoom: " + str(zoom))
+
 img.save("./output.png", "PNG")
