@@ -15,4 +15,3 @@ In order to generate an image open up the mbt.py file and edit the constants to 
 ![img4](./rendered/img4.png)
 ![img5](./rendered/img5.png)
 ![img6](./rendered/img6.png)
-![img7](./rendered/img7.png)
