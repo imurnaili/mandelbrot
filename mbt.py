@@ -4,14 +4,14 @@ from PIL import Image
 
 # constants
 centercolor = (0, 0, 0)
-color1 = (0, 255, 0)
-color2 = (255, 0, 0)
+color1 = (0, 0, 255)
+color2 = (255, 255, 255)
 
-iterations = 500
-isize = (2000, 2000)
+iterations = 50
+isize = (1000, 1000)
 
-location = (-0.761574, -0.0847596)
-zoom = 78125.0
+location = (0, 0)
+zoom = 1.0
 
 step = ((4.0/ zoom)/ isize[0], (4.0 / zoom) / isize[1])
 corner = (location[0] - (step[0] * isize[0] / 2), location[1] - (step[1] * isize[1] / 2))
