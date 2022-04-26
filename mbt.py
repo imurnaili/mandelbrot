@@ -1,4 +1,3 @@
-from turtle import pos
 from numba import jit
 import numpy as np
 from PIL import Image
