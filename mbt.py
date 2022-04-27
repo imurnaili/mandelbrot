@@ -88,14 +88,14 @@ def GetColor_alt2(v):
 	
 
 @jit(nopython=True)
-def GetCords(pix):
+def GetCoords(pix):
 	return complex(corner[0] + step[0] * pix[0], corner[1] + step[1] * pix[1])
 
 @jit(forceobj=True, parallel=True)
 def GenImageRGB(pixels):
 	for y in range(0, isize[0]):
 		for x in range(0, isize[1]):
-			v = ValueAt(GetCords((x,y)))
+			v = ValueAt(GetCoords((x,y)))
 			pixels[x, y] = GetColor(v)
 
 start = time.time()
@@ -105,7 +105,8 @@ GenImageRGB(pixels)
 end = time.time()
 
 print("Elapsed = %s" % (end - start))
-print("Cords: " + str(location[0]) + ", " + str(location[1]))
+print("Coords: " + str(location[0]) + ", " + str(location[1]))
 print("Zoom: " + str(zoom))
+print("Iterations: " + str(iterations))
 
 img.save("./output.png", "PNG")
